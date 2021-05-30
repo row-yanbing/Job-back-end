@@ -4,8 +4,6 @@
 @time: 2020/1/26 19:56
 @file: script.py 
 """
-import time
-
 from flask_script import Manager
 
 from app.models import *
@@ -16,34 +14,28 @@ db_manage = Manager()
 
 
 @db_manage.command
-def addJob():
-    i = 1
-    while i <= 3:
-        job = Job()
-        job.tittle = '我是第二批测试用的工作' + str(i)
-        job.reward = '80/周'
-        job.place = '朝阳'
-        job.settlement = 2
-        job.isBagEating = 1
-        job.encase = 2
-        job.isTrafficSubsidy = 2
-        job.royalty = 1
-        job.content = '这是测试工作的内容：1.必须按时报到。2.工作前续联系负责人获取工作群号'
-        job.detailPlace = '朝阳广场附近'
-        job.startTime = "2020-03-15"
-        job.endTime = "2020-03-19"
-        job.fromCompany = "中国电信南宁分公司"
-        job.recruitNum = 1
-        job.sex = 3
-        job.type = "其他"
-        job.withPeople = "王女士"
-        db.session.add(job)
-        db.session.commit()
-        i += 1
+def add_job():
+    new_job = Job(tittle='我是第二批测试用的工作', reward='80/周', place='朝阳', settlement=2,
+                  isBagEating=1, encase=2, isTrafficSubsidy=2, royalty=1,
+                  content='这是测试工作的内容：1.必须按时报到。2.工作前续联系负责人获取工作群号',
+                  detailPlace='朝阳广场附近', startTime="2021-03-15", endTime="2021-03-19",
+                  fromCompany="中国电信南宁分公司", recruitNum=1, sex=3, type="其他",
+                  withPeople="王女士", status=2)
+    db.session.add(new_job)
+    db.session.commit()
+    print(f"Job{new_job.id}: {new_job}")
+    res = db.session.query(Job).all()
+    print("\n".join([str(p) for p in res]))
 
 
 @db_manage.command
-def addUser():
+def update_job():
+    cur_job = db.session.query(Job).filter(Job.recruitNum == 2).first()
+    cur_job.tittle = '大朗喇叭厂'
+    db.session.commit()
+
+@db_manage.command
+def add_user():
     user = User()
     user.name = "韦杨琳"
     user.age = 20
@@ -64,7 +56,7 @@ def addUser():
 
 
 @db_manage.command
-def addEdu():
+def add_edu():
     edu = EduResume()
     edu.userId = 1
     edu.school = '广西民族大学'
@@ -78,7 +70,7 @@ def addEdu():
 
 
 @db_manage.command
-def addWork():
+def add_work():
     work = WorkResume()
     work.userId = 1
     work.company = '阿里巴巴'
@@ -90,7 +82,7 @@ def addWork():
 
 
 @db_manage.command
-def addExpect():
+def add_expect():
     other = OtherResume()
     other.userId = 1
     other.expectedJobType = "短期兼职"
@@ -102,7 +94,7 @@ def addExpect():
 
 
 @db_manage.command
-def addSnow():
+def add_snow():
     i = 1
     while i <= 3:
         snow = ComSign2()

@@ -112,7 +112,7 @@ class BaseParse(object):
             else:
                 is_no_fail = False
                 fail_msg += f"第{index}项:" \
-                                f"{self.__model__.__tablename__}表中无{k}字段，操作失败。" + " "
+                            f"{self.__model__.__tablename__}表中无{k}字段，操作失败。 "
                 fail_count += 1
                 break
         # 如果没有任何错误添加该model

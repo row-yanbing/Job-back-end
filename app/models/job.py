@@ -31,6 +31,13 @@ class Job(Base):
     status = db.Column(db.SmallInteger, default=1, comment='当前状态 1-待审批 2-进行中 3-已结束')
     testUnique = db.Column(db.String(20), unique=True, comment='测试是否唯一')
 
+    def __repr__(self):
+        return f"{self.isDel}, {self.tittle}, {self.reward}, {self.place}, {self.settlement}, {self.isBagEating}, " \
+               f"{self.encase}, {self.isTrafficSubsidy}, {self.royalty}, {self.type}, {self.recruitNum}, " \
+               f"{self.sex}, {self.browseTimes}, {self.content}, {self.startTime}, {self.endTime}, " \
+               f"{self.detailPlace}, {self.fromCompany}, {self.withPeople}, {self.signNum}, {self.phone}, " \
+               f"{self.email}, {self.cId}, {self.status}, {self.testUnique}"
+
 
 class Job_Signup(Base):
     __tablename__ = 'job_signup'
