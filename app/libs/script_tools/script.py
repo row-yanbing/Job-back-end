@@ -15,15 +15,19 @@ db_manage = Manager()
 
 @db_manage.command
 def add_job():
-    new_job = Job(tittle='我是第二批测试用的工作', reward='80/周', place='朝阳', settlement=2,
-                  isBagEating=1, encase=2, isTrafficSubsidy=2, royalty=1,
-                  content='这是测试工作的内容：1.必须按时报到。2.工作前续联系负责人获取工作群号',
-                  detailPlace='朝阳广场附近', startTime="2021-03-15", endTime="2021-03-19",
-                  fromCompany="中国电信南宁分公司", recruitNum=1, sex=3, type="其他",
-                  withPeople="王女士", status=2)
-    db.session.add(new_job)
+    new_jobs = []
+    new_jobs.extend([
+        Job(tittle="音圈厂流水线", place="松柏朗", reward="15元/小时", settlement=1,
+            isTrafficSubsidy=1, royalty=1, detailPlace="松柏朗",
+            startTime="2021-06-01", endTime="2021-09-01",
+            fromCompany="松柏朗音圈厂", recruitNum=20),
+        Job(tittle="表带厂流水线", place="黄草朗", detailPlace="黄草朗", fromCompany="黄草朗表带厂"),
+        Job(tittle="松柏朗百一厂", place="松柏朗", detailPlace="松柏朗", fromCompany="松柏朗百一厂"),
+        Job(tittle="乌石岭东冠厂", place="乌石岭", detailPlace="乌石岭", fromCompany="乌石岭东冠厂"),
+    ])
+    db.session.add_all(new_jobs)
     db.session.commit()
-    print(f"Job{new_job.id}: {new_job}")
+
     res = db.session.query(Job).all()
     print("\n".join([str(p) for p in res]))
 
@@ -31,8 +35,9 @@ def add_job():
 @db_manage.command
 def update_job():
     cur_job = db.session.query(Job).filter(Job.recruitNum == 2).first()
-    cur_job.tittle = '大朗喇叭厂'
+    cur_job.tittle = "大朗喇叭厂"
     db.session.commit()
+
 
 @db_manage.command
 def add_user():
@@ -59,12 +64,12 @@ def add_user():
 def add_edu():
     edu = EduResume()
     edu.userId = 1
-    edu.school = '广西民族大学'
-    edu.major = '软件工程'
-    edu.degree = '本科'
-    edu.startTime = '2016-09'
-    edu.endTime = '2020-06'
-    edu.experience = '我在学校表现得很好很好哦'
+    edu.school = "广西民族大学"
+    edu.major = "软件工程"
+    edu.degree = "本科"
+    edu.startTime = "2016-09"
+    edu.endTime = "2020-06"
+    edu.experience = "我在学校表现得很好很好哦"
     db.session.add(edu)
     db.session.commit()
 
@@ -73,10 +78,10 @@ def add_edu():
 def add_work():
     work = WorkResume()
     work.userId = 1
-    work.company = '阿里巴巴'
-    work.startTime = '2016-09'
-    work.endTime = '2020-06'
-    work.experience = '我在公司表现得很好很好哦'
+    work.company = "阿里巴巴"
+    work.startTime = "2016-09"
+    work.endTime = "2020-06"
+    work.experience = "我在公司表现得很好很好哦"
     db.session.add(work)
     db.session.commit()
 
@@ -87,7 +92,7 @@ def add_expect():
     other.userId = 1
     other.expectedJobType = "短期兼职"
     other.shortJobTime = "不限"
-    other.ableWorkDay = '每周一天'
+    other.ableWorkDay = "每周一天"
     other.isFullTime = 1
     db.session.add(other)
     db.session.commit()
