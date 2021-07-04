@@ -30,13 +30,18 @@ class GetResumesView(Resource):
 class ModifyStuView(Resource):
     def post(self):
         """修改公司的信息"""
+        print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', flush=True)
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=int)
         parser.add_argument('data', type=dict)
         args = parser.parse_args()
-        print(args.data)
-        stu = Student.query.filter(and_(Student.isDel == 0, Student.uId == args['id'])).first_or_404()
+        print(args, flush=True)
+        uid = args["id"]
+        stu = Student.query.filter(and_(Student.isDel == 0, Student.uId == uid)).first()
+        if not stu:
+            stu = Student(uId=uid)
         for key in args.data:
             setattr(stu, key, args.data[key])
+        stu.age = Student.calculate_age(args.data["birthday"])
         stu.update()
         return make_result(stu), 200

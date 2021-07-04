@@ -1,4 +1,5 @@
 # encoding: utf-8
+import datetime
 from app.models import Base
 from exit import db
 
@@ -20,3 +21,20 @@ class Student(Base):
     qqNum = db.Column(db.String(20), comment='QQ')
     weChat = db.Column(db.String(50), comment='微信号')
     sex = db.Column(db.SmallInteger, default=1, comment='性别 1-男 2-女')
+
+    def __repr__(self):
+        return f"{self.sname}, {self.nativePlace}, {self.place}, {self.birthday}"
+
+    @staticmethod
+    def calculate_age(self, birth_s='1993-08-15'):
+        try:
+            birth_d = datetime.datetime.strptime(birth_s, "%Y-%m-%d")
+        except Exception:
+            return 0
+        today_d = datetime.datetime.now()
+        birth_t = birth_d.replace(year=today_d.year)
+        if today_d > birth_t:
+            age = today_d.year - birth_d.year
+        else:
+            age = today_d.year - birth_d.year - 1
+        return age
